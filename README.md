@@ -15,7 +15,7 @@ erDiagram
 
     ROLE {
         BIGINT id PK
-        VARCHAR name  // ADMIN, PATIENT, DOCTOR
+        VARCHAR name
     }
 
     USER_ROLE {
@@ -25,7 +25,7 @@ erDiagram
 
     PATIENT {
         BIGINT id PK
-        BIGINT user_id FK  // unique
+        BIGINT user_id FK
         VARCHAR first_name
         VARCHAR last_name
         DATE date_of_birth
@@ -36,7 +36,7 @@ erDiagram
 
     DOCTOR {
         BIGINT id PK
-        BIGINT user_id FK  // unique
+        BIGINT user_id FK
         VARCHAR first_name
         VARCHAR last_name
         VARCHAR specialization
@@ -48,13 +48,13 @@ erDiagram
     JWT_TOKEN {
         STRING token
         TIMESTAMP expires_at
-        STRING subject   // userId / email
+        STRING subject
     }
 
-    USER ||--o{ USER_ROLE : "has many roles via"
-    ROLE ||--o{ USER_ROLE : "assigned to many users"
+    USER ||--o{ USER_ROLE : has_roles
+    ROLE ||--o{ USER_ROLE : assigned_to
 
-    USER ||--|| PATIENT : "1 : 1 (optional)"
-    USER ||--|| DOCTOR  : "1 : 1 (optional)"
+    USER ||--|| PATIENT : patient_info
+    USER ||--|| DOCTOR  : doctor_info
 
-    USER ||--o{ JWT_TOKEN : "used to create/validate (not persisted)"
+    USER ||--o{ JWT_TOKEN : generates
